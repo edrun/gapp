@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Gapp</title>
+    <link href="css/css.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Cuprum&v2' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="nav.js"></script>
+</head>
+<body>
+
+    <header>
+        <div id="header_left">
+            <h1>Repo Title</h1>
+            <h2>Optional sub heading</h2>
+            <p>Short description of repo here</p>
+        </div>
+        <div id="header_right">
+            <a href="#" class="button">Download</a>
+            <a href="#" class="button">View on Github</a>
+        </div>
+    </header>
+
+    <div id="nav_container">
+        <div id="nav">
+            <a href="#introduction">Introduction</a>
+            <a href="#code">Code</a>
+        </div><!--nav-->
+    </div>
+
+    <div id="content">
+
+<h1><a id="introduction" href="#introduction">Introduction</a></h1>
+
+<p class="whole_line">Nam at sem eu mi iaculis consequat. Suspendisse dui nulla, pulvinar a iaculis non, dapibus vitae arcu. Nunc malesuada pretium orci eget tempor. Nullam non magna justo. Duis ac purus metus. Cras egestas semper sagittis. Quisque neque justo, ornare eu viverra facilisis, pharetra nec dui. Aenean eros metus, fringilla vitae ullamcorper id, ultrices nec quam. Phasellus ut sem libero. Duis quis neque in eros aliquet eleifend a quis elit. Aenean fringilla cursus nibh, eu adipiscing lacus varius nec. Maecenas urna nulla, condimentum interdum laoreet non, semper dictum ipsum. Fusce at luctus risus. Nulla vel dolor elit. Cras non viverra tellus. Duis tempor nunc sit amet enim tristique luctus</p>
+
+<p>Nam at sem eu mi iaculis consequat. Suspendisse dui nulla, pulvinar a iaculis non, dapibus vitae arcu. Nunc malesuada pretium orci eget tempor. Nullam non magna justo. Duis ac purus metus. Cras egestas semper sagittis. Quisque neque justo, ornare eu viverra facilisis, pharetra nec dui. Aenean eros metus, fringilla vitae ullamcorper id, ultrices nec quam. Phasellus ut sem libero. Duis quis neque in eros aliquet eleifend a quis elit. Aenean fringilla cursus nibh, eu adipiscing lacus varius nec. Maecenas urna nulla, condimentum interdum laoreet non, semper dictum ipsum. Fusce at luctus risus. Nulla vel dolor elit. Cras non viverra tellus. Duis tempor nunc sit amet enim tristique luctus</p>
+<pre>class Person
+  attr_reader :name, :age
+  def initialize(name, age)
+    @name, @age = name, age
+  end
+  def &lt;=&gt;(person) # Comparison operator for sorting
+    @age &lt;=&gt; person.age
+  end
+  def to_s
+    "#@name (#@age)"
+  end
+end
+
+group = [
+  Person.new("Bob", 33), 
+  Person.new("Chris", 16), 
+  Person.new("Ash", 23) 
+]
+
+puts group.sort.reverse
+</pre>
+
+<h1><a id="code" href="#code">Code</a></h1>
+
+<p>Nunc eget magna arcu, quis rutrum justo. Sed ipsum mauris, dictum nec mattis et, pretium sed sem. Donec non leo ut lacus laoreet placerat. Mauris euismod elementum odio, at tempor ligula molestie vitae. Vivamus dignissim cursus nunc, sed pellentesque mauris aliquet sed. In id blandit orci. Vivamus rhoncus mauris sed tortor facilisis vitae auctor erat vehicula. Sed neque leo, euismod bibendum mollis ultrices, condimentum in dui. Praesent pharetra neque sit amet dui posuere fringilla. Mauris non felis neque, fermentum adipiscing erat. Nam fringilla orci id elit euismod laoreet. Vivamus posuere elementum tempor. Sed varius erat eu velit suscipit facilisis. Praesent eu tellus est. Etiam volutpat porta mattis.</p> 
+
+<pre>window.onload = function() {
+    function check_location() {
+        for (var i = 0; i &lt; h1s.length; i++) {
+            if (h1s[(i+1)] != undefined){
+                if ((scroll_location &gt; headinglocations[i]) &amp;&amp; (scroll_location &lt; headinglocations[(i + 1)])){
+                    closestheading = h1s[i];
+                }
+                else if (scroll_location &lt; headinglocations[0]){
+                    closestheading = 0;
+                }
+            }
+            else if (scroll_location &gt; headinglocations[i]){
+                closestheading = h1s[i];
+            }
+        }
+        update_nav();
+    }
+</pre>
+
+<p>Sed a turpis sit amet quam accumsan tincidunt ut at orci. Integer quam neque, laoreet sed interdum eget, mollis nec lorem. Curabitur dapibus, velit ut egestas malesuada, nisl magna viverra est, nec auctor lorem tortor a velit. Curabitur eu orci eu purus bibendum lobortis ut vel nunc. Fusce purus urna, lobortis sit amet vulputate id, viverra et felis. Phasellus volutpat dapibus nibh ac fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed ornare semper nisl, id consequat sapien commodo non. Ut feugiat ultricies adipiscing. Pellentesque auctor mollis egestas. Quisque pharetra imperdiet nunc, suscipit feugiat dolor molestie sodales. Quisque pellentesque ligula nec libero tristique semper. Maecenas leo massa, varius quis imperdiet eget, semper sed dui. Morbi tempus fringilla tortor, a luctus massa consectetur sit amet. Maecenas et dapibus nisi.</p>
+
+
+    </div><!--content-->
+
+</body>
+</html>
