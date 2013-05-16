@@ -1,0 +1,189 @@
+---
+layout: post
+name: 小试牛刀-1
+category: 脚本编程
+---
+
+h2. Get Pid Var
+
+bq.
+对于每个正在运行的进程，我们可以使用如下命令查看：
+
+<pre>
+$pgrep vim #then return pid value 获取进程PID
+$cat /proc/$PID/environ #note:$PID is what we get above.
+</pre>
+or
+<pre>
+$cat /proc/$PID/environ|tr '\0' '\n'
+</pre>
+
+bq.
+then we can get the format output clear
+
+h2. what is tr?
+
+<p>
+Above is one useful example.What does it mean?
+It means: 
+use tr turn the end code '\0' to '\n'
+将空格转成换行符号。
+</p>
+
+h2. tr usage.
+
+<pre>
+-bash-4.2$ tr --help
+
+h4. 用法：tr [选项]... SET1 [SET2]
+
+从标准输入中替换、缩减和/或删除字符，并将结果写到标准输出。
+
+  -c, -C, --complement          首先补足SET1
+  -d, --delete                  删除匹配SET1 的内容，并不作替换
+  -s, --squeeze-repeats 如果匹配于SET1 的字符在输入序列中存在连续的
+                                重复，在替换时会被统一缩为一个字符的长度
+  -t, --truncate-set1           先将SET1 的长度截为和SET2 相等
+      --help            显示此帮助信息并退出
+      --version         显示版本信息并退出
+
+SET 是一组字符串，一般都可按照字面含义理解。解析序列如下：
+
+  \NNN  八进制值为NNN 的字符(1 至3 个数位)
+  \\            反斜杠
+  \a            终端鸣响
+  \b            退格
+  \f            换页
+  \n            换行
+  \r            回车
+  \t            水平制表符
+  \v            垂直制表符
+* 字符1-字符2   从字符1 到字符2 的升序递增过程中经历的所有字符
+  [字符*]       在SET2 中适用，指定字符会被连续复制直到吻合设置1 的长度
+  [字符*次数]   对字符执行指定次数的复制，若次数以 0 开头则被视为八进制数
+* [:alnum:]     所有的字母和数字
+* [:alpha:]     所有的字母
+* [:blank:]     所有呈水平排列的空白字符
+* [:cntrl:]     所有的控制字符
+* [:digit:]     所有的数字
+* [:graph:]     所有的可打印字符，不包括空格
+  [:lower:]     所有的小写字母
+  [:print:]     所有的可打印字符，包括空格
+  [:punct:]     所有的标点字符
+  [:space:]     所有呈水平或垂直排列的空白字符
+  [:upper:]     所有的大写字母
+  [:xdigit:]    所有的十六进制数
+* [=字符=]      所有和指定字符相等的字符
+</pre>
+
+<p>
+仅在SET1 和SET2 都给出，同时没有-d 选项的时候才会进行替换。
+仅在替换时才可能用到-t 选项。如果需要SET2 将被通过在末尾添加原来的末字符的方式
+补充到同SET1 等长。SET2 中多余的字符将被省略。只有[:lower:] 和[:upper:]
+以升序展开字符；在用于替换时的SET2 中以成对表示大小写转换。-s 作用于SET1，既不
+替换也不删除，否则在替换或展开后使用SET2 缩减。
+
+请向bug-coreutils@gnu.org 报告tr 的错误
+GNU coreutils 的主页：<http://www.gnu.org/software/coreutils/>
+GNU 软件一般性帮助：<http://www.gnu.org/gethelp/>
+要获取完整文档，请运行：
+<pre>
+$info coreutils 'tr invocation'
+</pre>
+</p>
+
+h2. 应用小例子
+
+* 除oops.txt里面的重复的小写字符
+<pre> 
+$tr -s "[a-z]"<oops.txt >result.txt 
+!/images/tr/tr-s.png!
+</pre>
+
+
+* 除空行 
+<pre>$tr -s "[\012]" < plan.txt </pre>
+<p>or</p>
+<pre>$tr -s ["\n"] < plan.txt </pre>
+
+* 时需要删除文件中的^M，并代之以换行 
+<pre>$tr -s "[\015]" "[\n]" < file</pre>
+<p>or</p>
+<pre>$tr -s "[\r]" "[\n]" < file </pre>
+
+* 写替换成大写 
+<pre>$cat a.txt |tr "[a-z]" "[A-Z]" >b.txt </pre>
+<p>
+!/images/tr/tr-low-case.png!
+</p>
+*    删除指定字符
+**
+一个星期的日程表。
+** 任务是从其中删除所有数字，只保留日期。日期有大写，也有小写格式。因此需指定两个字符范围[a-z]和[A-Z]，命令:
+<pre>$tr -cs "[a-z][A-Z]" "[\012*]" </pre>
+<p>
+将文件每行所有不包含在[a-z]或[A-Z]（所有希腊字母）的字符串放在字符串1中并转换为一新行。-s选项表明压缩所有新行， -c表明保留所有字母不动。
+</p>
+bq.
+原文件如下，后跟tr命令： 
+<pre>$tr -cs "[a-z][A-Z]" "[\012*]" <diary.txt </pre>
+
+* 转换控制字符
+** tr的第一个功能就是转换控制字符，特别是从dos向UNIX下载文件时，忘记设置ftp关于回车换行转换的选项时更是如此。cat -v filename 显示控制字符。 
+<pre>
+$cat -v stat.txt 
+box aa^^^^^12^M 
+apple bbas^^^^23^M 
+^Z 
+</pre>
+<p>
+猜想‘^ ^ ^ ^ ^ ^’是tab键。每一行以Ctrl-M结尾，文件结尾Ctrl-Z，以下是改动方法。 
+使用-s选项，查看ASCII表。^的八进制代码是136，^M是015，tab键是011，^Z是032 ,下面将按步骤完成最终功能。 
+用tab键替换^ ^ ^ ^ ^ ^，命令为"\136" "[\011*]"。将结果重定向到临时工作文件stat.tmp 
+</p>
+<pre>
+$tr -s "[\136]" "[\011*]" <stat.txt >stat.tmp 
+#用新行替换每行末尾的^M，并用\n去除^Z，输入要来自于临时工作文件stat.tmp。 
+tr -s "[\015][\032]" "\n" <stat.tmp 
+#要删除所有的tab键，代之以空格，使用命令 
+tr -s "[\011]" "[\040*]" <input.file 
+</pre>
+
+* 替换passwd文件中所有冒号，代之以tab键，可以增加可读性
+<pre>
+tr -s "[:]" "[\011]" < /etc/passwd 
+</pre>
+<p>or</p>
+<pre>
+tr -s "[:]" "[\t]" < /etc/passwd 
+</pre>
+
+* 使路径可读
+<p>
+如果用 echo $PATH 或者 echo $LD_LIBRARY_PATH 等类似的命令来显示路径信息的话，我们看到的将会是一大堆用冒号连接在一起的路径， tr命令可以把这些冒号转换为回车，这样，这些路径就具有很好的可读性了
+<pre>
+echo $PATH | tr ":" "\n"
+</pre>
+</p>
+* 在vi内使用所有这些命令！只要记住：在tr命令前要加上您希望处理的行范围和感叹号 （！），如
+<pre>
+：1,$!tr -d '\t'
+ #美元符号表示最后一行）。 
+</pre>
+* 当有人给您发送了一个在 Mac OS 或 DOS/Windows 机器上创建的文本文件时，您会发现tr非常有用。
+<p>
+如果没有将文件保存为使用 UNIX 换行符来表示行结束这种格式，则需要将这样的文件转换成本机 UNIX 格式，否则一些命令实用程序不会正确地处理这些文件。Mac OS 的行尾以回车字符(\r)结束，许多文本处理工具将这样的文件作为一行来处理。为了纠正这个问题，可以用下列技巧：
+<pre>
+Mac -> UNIX：tr "\r" "\n"<macfile > unixfile 
+UNIX -> Mac：tr "\n" "\r"<unixfile > macfile 
+* crosoft DOS/Windows 约定，文本的每行以回车字符(\r)并后跟换行符(\n)结束。为了纠正这个问题，可以使用下列命令：
+DOS -> UNIX：tr -d "\r"<dosfile > unixfile 
+UNIX -> DOS：在这种情况下，需要用awk，因为tr不能插入两个字符来替换一个字符。要使用的 awk 命令为
+$awk '{ print $0"\r" }'<unixfile > dosfile
+</pre>
+注：都可以用sed 来完成。
+</p>
+
+h2. 参考消息
+
+"学习永无此境":http://hi.baidu.com/wsh0102/item/a272fea3a518b1da5bf191da
