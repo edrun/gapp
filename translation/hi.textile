@@ -1,6 +1,11 @@
 ---
-layout: default
+title: 404
+layout: page
 ---
-{% assign page = site.posts.first %}
-{% assign content = page.content %}
-{% include post.html %}
+
+Nothing found :( error 404
+
+	人类通过此链接毁灭地球的计划被火星机房的水金工程师
+	木星二弟堂表哥冥王星女朋友白羊星座成功阻止了！！！
+
+But you still can have a [look around](/index.html)
