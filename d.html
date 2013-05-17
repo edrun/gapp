@@ -1,49 +1,120 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="Linghua Zhang" />
-    {% if page.title %}
-    <title>{{ page.title }}</title>
-    {% else %}
-    <title>{{ site.name }}</title>
-    {% endif %}
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/atom.xml" rel="alternate" title="{{ site.name }}" type="application/atom+xml" />
-    <link rel="stylesheet" href="/media/css/style.css">
-    <link rel="stylesheet" href="/media/css/github.css">
-    <link rel="stylesheet" href="/media/css/fontawesome.css">
-    <!--[if IE 7]>
-    <link rel="stylesheet" href="/media/css/fontawesome-ie7.css">
-    <![endif]-->
-    <script type="text/javascript" src="/media/js/highlight.pack.js"></script>
-    <script type="text/javascript">
-      hljs.initHighlightingOnLoad();
-    </script>
-  </head>
-  <body>
-      <div id="main" role="main">
-        <header>
-          <div id="header">
-            <h1><a title="{{ site.name }}" class="" href="/">{{ site.name }}</a></h1>
-          </div>
-          <nav>
-            <span><a title="主页" class="icon-list-ul" href="/"></a></span>
-            <span><a title="博客" class="icon-tags" href="/blogs.html"></a></span>
-            <span><a title="关于我" class="icon-user" href="/about.html"></a></span>
-            <span><a title="翻译计划" class="icon-film" href="http://edrun.github.io/translate/"></a></span>
-            <span><a title="项目" class="icon-link" href="http://edrun.github.io/gapp/"></a></span>
-            <span><a title="订阅" class="icon-rss" href="/atom.xml"></a></span>
-          </nav>
-        </header>
-        <div id="content">
-        {{ content }}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Gapp</title>
+    <link href="css/css.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Cuprum&v2' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="nav.js"></script>
+</head>
+<body>
+
+    <header>
+        <div id="header_left">
+            <h1>Traslate Project</h1>
+            <h2>技术文档翻译</h2>
+
+            <p>Improve English reading ,bordern eyes of Tec. world!</p>
+            <p>提高英语阅读能力，拓展技术视野.</p>
+           
         </div>
-        <footer>
-          <div>
-            &copy; 2013 qlhuang | powered by jekyll | themed by <a href="http://lhzhang.com" title="sext v">sext v</a> | fork <a href="https://github.com/waynezhang/blog" title="fork me">me</a>
-          </div>
-        </footer>
-      </div> <!-- main -->
-  </body>
+        <div id="header_right">
+            <a href="#" class="button">Download</a>
+            <a href="https://github.com/edrun" class="button">View on Github</a>
+        </div>
+    </header>
+
+    <div id="nav_container">
+        <div id="nav">
+            <a href="#introduction">Introduction</a>
+            <a href="#translation-list">translation-list</a>
+        <!--
+              <li><a href="#">产品介绍</a>
+              <ul>
+              <li><a href="#">产品一</a></li>
+              <li><a href="#">产品一</a></li>
+              <li><a href="#">产品一</a></li>
+              <li><a href="#">产品一</a></li>
+              </ul>
+             </li>
+        -->
+            <a href="#source">source</a>
+            <a href="http://edrun.github.io/gapp/d.html">mysite</a>
+        </div><!--nav-->
+        <ul id="nav">
+    </div>
+
+
+
+
+    <div id="content">
+
+<h1><a id="introduction" href="#introduction">Introduction</a></h1>
+
+<p class="whole_line">Translate plan is about tec. and English. </p>
+
+<p>Translate plan is a praviate English translation project.
+
+Aim at spread the technology from English spoken country or other new technology written in English. 
+And it is also part of my English learing plan.
+I am now coding base on *nix environment 
+<pre>
+
+    关于英文技术文档翻译计划。
+
+    英文技术文档翻译计划是一个纯粹的个人英语翻译项目。
+
+    目的在于英语技术文档中文化，促进技术的传播。
+
+    与此同时，这也是我的英语学习计划的一部分。
+
+    我现在是一名*nix环境下的软体工程师。
+
+    下面是我的邮箱地址：）
+
+    echo dyrqeha@tznvy.pbz|tr '[N-ZA-Mn-za-m]' '[A-Za-z]' 
+
+</pre>
+</p>
+
+<p>Reach me.> </p>
+<p>[hl@~$] echo dyrqeha@tznvy.pbz|tr '[N-ZA-Mn-za-m]' '[A-Za-z]'</p>
+
+
+
+<h1><a id="translation-list" href="#translation-list">translation-list</a></h1>
+
+<p>Nunc eget magna arcu, quis rutrum justo. Sed ipsum mauris, dictum nec mattis et, pretium sed sem. Donec non leo ut lacus laoreet placerat.</p> 
+
+<pre>window.onload = function() {
+    function check_location() {
+        for (var i = 0; i &lt; h1s.length; i++) {
+            if (h1s[(i+1)] != undefined){
+                if ((scroll_location &gt; headinglocations[i]) &amp;&amp; (scroll_location &lt; headinglocations[(i + 1)])){
+                    closestheading = h1s[i];
+                }
+                else if (scroll_location &lt; headinglocations[0]){
+                    closestheading = 0;
+                }
+            }
+            else if (scroll_location &gt; headinglocations[i]){
+                closestheading = h1s[i];
+            }
+        }
+        update_nav();
+    }
+</pre>
+
+<p>Sed a turpis sit amet quam accumsan tincidunt ut at orci. Integer quam neque, laoreet sed interdum eget, mollis nec lorem. Curabitur dapibus, velit ut egestas malesuada, nisl magna viverra est, nec auctor lorem tortor a velit. Curabitur eu orci eu purus bibendum lobortis ut vel nunc. </p>
+
+<h1><a id="source" href="#source">source</a></h1>
+
+<p>Sed a turpis sit amet quam accumsan tincidunt ut at orci. Integer quam neque, laoreet sed interdum eget, mollis nec lorem. Curabitur dapibus, velit ut egestas malesuada, nisl magna viverra est, nec auctor lorem tortor a velit. Curabitur eu orci eu purus bibendum lobortis ut vel nunc. </p>
+
+<h1><a id="mysite" href="http://edrun.github.io">mysite</a></h1>
+
+<p>我的个人主页</p>
+    </div><!--content-->
+
+</body>
 </html>
