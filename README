@@ -1,0 +1,5 @@
+to install:
+sudo ./install-tools --install
+
+to uninstall:
+sudo ./install-tools --unstall
