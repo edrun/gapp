@@ -9,6 +9,7 @@ DB_D=DB_D_Free_001
 DB_E=DB_E_Free_001
 DB_F=DB_F_Free_001
 DB_B_F=DB_B_Free_001_FenLan
+TV_ONLINE=tvpad_online
 
 cat << ENTER
 
@@ -176,11 +177,13 @@ cat << ENTER
 ---    6) DB_F                            -
 ---                                       -
 ---    7) DB_B_F                          -
+---    
+---    8) TV_ONLINE                       -
 ---------------------------------------------
 >>  请选择要编译的模版:
 ENTER
 
-##input the choice:1 2 3 4 5 6
+##input the choice:1 2 3 4 5 6 7 8
 read choice
 
 case "$choice" in
@@ -206,6 +209,11 @@ case "$choice" in
 7)    SUB_DIR=$DB_B_F
        exec_script
        pkg_file
+    ;;
+
+8)   SUB_DIR=$TV_ONLINE
+     exec_script
+     pkg_file
     ;;
 esac
 
