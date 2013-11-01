@@ -1,5 +1,9 @@
-to install:
+what is this?
+this is a tool wirrten by scott huang to finished his work quickly.
+and use more extra time to quset for others things.
+
+TO install:
 sudo ./install-tools --install
 
-to uninstall:
+TO uninstall:
 sudo ./install-tools --unstall
