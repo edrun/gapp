@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEST=/usr/bin/
+DEST=/usr/bin/gpack
 SOUR=./
 SOFT=gPack_alpha1
 
@@ -20,7 +20,7 @@ rm_file(){
 }
 
 cp_file(){
-   cp -v $SOUR$SOFT $DEST
+   cp -vf $SOUR$SOFT $DEST
 }
 
 install_ap(){
