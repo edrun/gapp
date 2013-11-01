@@ -2,7 +2,7 @@
 
 DEST=/usr/bin/
 SOUR=./
-SOFT=gPack
+SOFT=gPack_alpha1
 
 if [ $# -ne 0 ]; then
    cat << ENTER

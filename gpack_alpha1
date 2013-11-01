@@ -1,0 +1,361 @@
+#!/bin/bash
+############################ what is this? ##################
+######### gpack is a tool for apps packing #################
+######### just feel free for using it #######################
+
+#basic variety
+ROOT_DIR=/home/wwt/apps
+PKG_DIR=gpkg/
+DB_A=DB_A_Free_001
+DB_B=DB_B_Free_001
+DB_C=DB_C_Free_001
+DB_D=DB_D_Free_001
+DB_E=DB_E_Free_001
+DB_F=DB_F_Free_001
+DB_B_F=DB_B_Free_001_FenLan
+TV_ONLINE=onlinetv
+LOG=log
+
+XML=$app_id\*.xml
+
+#selct what's the aim OS
+select_os(){
+cat << ENTER
+-----------------------------------------------
+U can choose the following OSes:
+     1  the arabic symboic 1 means you select 
+        gvos3.26 as  the aim operation system
+     2  2 means you selct  the gvos4.0 OS
+-----------------------------------------------
+ENTER
+
+echo "To select an OS,please choose [1|2]:"
+echo "####################################"
+echo -n ">>Please choose an OS: "
+read  version
+}
+select_os
+
+
+PNG_ORI=$app_id/*.png
+PNG_DEST=$app_id/$app_id.png
+VOD=vod\*
+#image_dir=$ROOT_DIR/$SUB_DIR/image
+aim_pkg=$ROOT_DIR/$SUB_DIR/aim_pkg
+pkg_p=$ROOT_DIR/$SUB_DIR/gpkg/*.pkg
+#some useful functions
+
+##chceck the error
+ccheck(){
+    set +e
+    cmd=$1
+    shift
+    $cmd "$@"
+    set -e
+}
+
+###image_choice
+image_c(){
+    
+    if [ -d $ROOT_DIR/$SUB_DIR/$LOG ]; then
+       echo "log dir exists."
+    else 
+       mkdir $ROOT_DIR/$SUB_DIR/$LOG
+    fi
+
+
+    if [ -d $ROOT_DIR/$SUB_DIR/image ]; then
+	    rm -rf $ROOT_DIR/$SUB_DIR/image/*
+  
+            if [ -d $ROOT_DIR/$SUB_DIR/image_$app_id* ]; then
+               echo "$app_id exsists!"
+	       cp -rvf $ROOT_DIR/$SUB_DIR/image_$app_id*/*   $ROOT_DIR/$SUB_DIR/image 
+	    else 
+	       echo "No such apps $app_id ,please check again."
+               app_id=$((app_id+1))	
+               echo "Now new App's ID is $app_id"
+               continue
+	    fi
+    fi
+}
+
+
+###change the domain.h
+mod_domain(){
+   if [  -d $ROOT_DIR/$SUB_DIR/image_$app_id* ]; then
+      if [ -f $ROOT_DIR/$SUB_DIR/src/domain.h ]; then
+         rm -fv $ROOT_DIR/$SUB_DIR/src/domain.h
+      fi
+   else 
+      echo "App $app_id is not  esists."
+      app_id=$((app_id+1))
+      continue
+   fi
+   
+   if [ -f $ROOT_DIR/$SUB_DIR/src/domain.h.back ] && [ -d $ROOT_DIR/$SUB_DIR/image_$app_id* ]; then
+       echo "yes there is  has domain.h.back file"
+       echo "App's id is $app_id"
+       sed  "/$app_id/s/^\/\///" $ROOT_DIR/$SUB_DIR/src/domain.h.back > $ROOT_DIR/$SUB_DIR/src/domain.h
+   else 
+       echo "there is no need to change domain.h files"
+       app_id=$((app_id+1))
+       continue
+   fi
+}
+
+##compile the src
+make_p(){
+    gvmake clean ;
+    gvmake distclean;
+    gvmake telechips;
+    echo "vodXXX file succed !!!"
+}
+
+##copy vod* file to app_id dir
+cp_file(){
+    if [ "$choice" = "8" ]; then
+       if [ -f $app_id/$ONLINE ]; then
+         rm -vf $app_id/$ONLINE
+         cp -fv $ONLINE $APP_ID/$ONLINE
+       else
+         cp -fv $ONLINE $APP_ID/$ONLINE
+       fi
+    else   
+       if [ -f $app_id/vod$app_id ]; then
+          rm -f $app_id/vod$app_id
+          if [ -f $VOD ];then
+             cp -fv $VOD $app_id/vod$app_id
+          else
+             echo "vod file not exists,please check again." >> $ROOT_DIR/$SUB_DIR/$LOG/error.log
+          fi
+       else
+          if [ -f $VOD ]; then
+             cp -fv $VOD $app_id/vod$app_id
+          else
+            echo "vod file not exists,please check again." >> $ROOT_DIR/$SUB_DIR/$LOG/error.log
+          fi
+       fi
+   fi
+
+}
+
+ver_pkg(){
+    case "$version" in
+    1)   gpkg_3.20  -D $ROOT_DIR/$SUB_DIR/gpkg/$app_id*.xml -S ./$app_id
+    ;;
+    2)   gpkg-364   -D $ROOT_DIR/$SUB_DIR/gpkg/$app_id*.xml -S ./$app_id
+    ;;
+   esac
+}
+
+pkg_c(){
+  if [ ! -d $ROOT_DIR/$SUB_DIR/aim_pkg ]; then
+     mkdir -pv $ROOT_DIR/$SUB_DIR/aim_pkg
+     echo "$SUB_DIR is $SUB_DIR...."
+     cp -vf $ROOT_DIR/$SUB_DIR/gpkg/*.pkg $ROOT_DIR/$SUB_DIR/aim_pkg/
+     
+  else
+     cp -vf $ROOT_DIR/$SUB_DIR/gpkg/*.pkg $ROOT_DIR/$SUB_DIR/aim_pkg/
+  fi
+}
+    
+##use gpkg to make the app img
+pkg_file(){
+##    DST_XML=$ROOT_DIR/$SUB_DIR/$PKG_DIR$app_id\*.xml
+#
+#    if [ !  -f  $ROOT_DIR/$SUB_DIR/gpkg/$app_id/$app_id.png  ]; then
+#       echo "app is $app_id "
+#       echo "$PNG_DEST not exsits!"
+#       mv -fv  $ROOT_DIR/$SUB_DIR/$PKG_DIR$PNG_ORI   $ROOT_DIR/$SUB_DIR/$PKG_DIR$PNG_DEST
+#    else
+#       echo "File exists!"
+#    fi
+
+#    if [ -f $ROOT_DIR/$SUB_DIR/gpkg/$app_id*.XML ]; then
+#       echo "xml is $XML"
+   if [ -f $ROOT_DIR/$SUB_DIR/gpkg/$app_id/vod$app_id ]; then
+       ccheck  ver_pkg
+   else
+       echo " there is no fit vod$app_id file, please check again." >> $ROOT_DIR/$SUB_DIR/$LOG/error.log
+       echo " Please check domain.h and image dir ,if app pkg failed." >> $ROOT_DIR/$SUB_DIR/$LOG/error.log
+   fi
+#    else
+#       echo "there is no xml file exists ,please check the file again!"
+#       echo "pleas  continue or stop by choosing y|Y|N|n:"
+#       read a
+#
+#       case "$a" in
+#              y|Y)  ccheck  ver_pkg
+#              ;;
+#              n|N)
+#              exit 0
+#              ;;
+#       esac
+
+#     fi
+
+}
+
+#copy .pkg
+
+##scipt to make the image
+exec_script(){
+
+if [ ! -d $ROOT_DIR/$SUB_DIR/image ]; then
+       mkdir -pv $ROOT_DIR/$SUB_DIR/image
+else
+      echo "dir image exsits,no need to make a new one."
+fi
+#Prepares
+image_c
+mod_domain
+
+#while [ "$args" != "q" ]
+#do
+
+#help_dest(){
+#cat << ENTER
+#---------------------------------------
+#-- Usage: $0 |map|pkg|q              --
+#--    map  complie the soure         --
+#--    pkg  Pack apps for end machine --
+#--    q    exit                      --
+#---------------------------------------
+#>> choose what you want：
+#ENTER
+#read args
+#}
+#help_dest
+
+#case "$args" in
+#map)  
+      if [ ! -d $ROOT_DIR/$SUB_DIR/$PKG_DIR$app_id ]; then
+          mkdir $ROOT_DIR/$SUB_DIR/$PKG_DIR$app_id
+      fi
+      cd $ROOT_DIR/$SUB_DIR
+      ccheck make_p
+      echo "Finish to make vod files！！"
+
+#;;
+#pkg)  
+      cd  $ROOT_DIR/$SUB_DIR/$PKG_DIR
+
+      if [ -d $app_id ]; then
+         echo "dir exits,copy vod file !"
+         cp_file
+      else
+         echo "there is no that dir,please make one:"
+         mkdir -v $app_id
+         ccheck cp_file
+      fi
+      pkg_file
+      echo
+      echo "！！！!Apps Succeed！！！！"
+      echo
+      echo
+      echo "*****************************************************"
+      echo
+      find ./ -maxdepth 1 -name "*.pkg" -type f -atime -1 -exec ls -ahl {} \;
+      echo
+      echo "*****************************************************"
+#;;
+#q)  exit 0
+#;;
+#esac
+
+#done
+}
+
+
+#main
+
+main_help(){
+echo "Please Choose The Moc Which U want to compile:"
+cat << ENTER
+---------------------------------------------
+---    1) DB_A                          -----
+---                                       -
+---    2) DB_B                            -
+---                                       -
+---    3) DB_C                            -
+---                                       -
+---    4) DB_D                            -
+---                                       -
+---    5) DB_E                            -
+---                                       -
+---    6) DB_F                            -
+---                                       -
+---    7) DB_B_F                          -
+---    
+---    8) TV_ONLINE                       -
+---------------------------------------------
+>>  Choice which model is the one u want to compile:
+ENTER
+
+##input the choice:1 2 3 4 5 6 7 8
+read choice
+}
+main_help
+
+
+#input app_id which will be complie
+apid(){
+echo "Plz input appid:"
+echo "--------------------------------"
+echo ">> Input Begin App's ID："
+read app_id
+echo ">> Input Finish App's ID："
+read id_max
+}
+apid
+
+while [ "$app_id" -le "$id_max" ]
+do
+case "$choice" in
+1)    SUB_DIR=$DB_A
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+       continue
+    ;;
+2)    SUB_DIR=$DB_B
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+       continue
+    ;;
+3)    SUB_DIR = DB_C
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+       continue
+    ;;
+4)    SUB_DIR=$DB_D
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+       continue
+    ;;
+5)    SUB_DIR=$DB_E
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+    ;;
+6)    SUB_DIR=$DB_F
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+    ;;
+7)    SUB_DIR=$DB_B_F
+       exec_script
+       pkg_c
+       app_id=$((app_id+1))
+    ;;
+
+8)   SUB_DIR=$TV_ONLINE
+     exec_script
+     pkg_c
+     app_id=$((app_id+1))
+    ;;
+esac
+done
